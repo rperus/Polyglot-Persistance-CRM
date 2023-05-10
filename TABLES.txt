@@ -1,0 +1,81 @@
+create database invoices;
+use invoices;
+
+create table invoices
+. open "Z:\\OneDrive\\Python\\BEMM459_RDBMS_NoSQL-main\\TareaFinal\\invoicing.db"
+
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE Project (
+ projectID   INTEGER   PRIMARY KEY AUTOINCREMENT,
+ projectName TEXT (30) NOT NULL
+);
+
+CREATE TABLE CompanyType (
+ CompanyTypeID TEXT PRIMARY KEY
+      NOT NULL
+);
+
+CREATE TABLE Company(
+companyRFC TEXT (13) PRIMARY KEY,
+companyName TEXT (30) NOT NULL, 
+companyTelephone INTEGER,
+companyType TEXT CHECK( companyType IN ('Supplier','Customer')) NOT NULL
+);
+
+CREATE TABLE Company (
+companyRFC TEXT (13) PRIMARY KEY,
+companyName TEXT (30) NOT NULL,
+companyTelephone INTEGER,
+CompanyTypeID INTEGER   REFERENCES CompanyType (CompanyTypeID) ON DELETE CASCADE
+ON UPDATE CASCADE NOT NULL
+);
+
+CREATE TABLE Contact (
+contactID INTEGER   PRIMARY KEY AUTOINCREMENT,
+companyRFC TEXT (13),
+contactName TEXT (30) NOT NULL,
+contactTitle TEXT (30),
+contactEmail TEXT (20) NOT NULL,
+contactCelphone INTEGER   NOT NULL,
+FOREIGN KEY (companyRFC) REFERENCES Company (companyRFC) ON UPDATE CASCADE
+ON DELETE CASCADE
+);
+
+CREATE TABLE Invoice (
+invoiceID INTEGER   PRIMARY KEY AUTOINCREMENT,
+companyRFC TEXT (13),
+projectID INTEGER,
+invoiceDescription TEXT (30) NOT NULL,
+invoiceDate DATE NOT NULL,
+invoiceTotal NUMERIC (10, 2) NOT NULL,
+invoiceBalance NUMERIC (10, 2) NOT NULL CHECK (invoiceBalance >= 0),
+invoiceMethod TEXT CHECK (invoiceMethod IN ('Cash', 'Cheque', 'Wire Transfer', 'Credit Card', 'Debit Card')) 
+NOT NULL DEFAULT 'Wire Transfer',
+invoicetaxRate REAL CHECK (invoicetaxRate IN (0, 0.16) ) NOT NULL DEFAULT '.16',
+FOREIGN KEY (companyRFC) REFERENCES Company (companyRFC) ON UPDATE RESTRICT ON DELETE RESTRICT,
+FOREIGN KEY (projectID) REFERENCES Project (projectID) ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+
+CREATE TABLE Invoice_ProductsServices (
+invoiceID INTEGER NOT NULL,
+productID INTEGER NOT NULL,
+PRIMARY KEY (invoiceID, productID),
+FOREIGN KEY (invoiceID) REFERENCES Invoice (invoiceID) ON UPDATE RESTRICT ON DELETE RESTRICT,
+FOREIGN KEY (productID) REFERENCES ProductsServices (productID) ON UPDATE RESTRICT
+ON DELETE RESTRICT
+);
+
+CREATE TABLE ProductsServices (
+productID   INTEGER   PRIMARY KEY AUTOINCREMENT,
+productName TEXT (30) NOT NULL
+);
+
+
+
+ DDL(Data Definition Language)
+
+
+
+
+

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<school>
+	<student>
+		<name>Alaya</name>
+		<age>12</age>
+		<section>6A</section>
+	</student>
+	<student>
+		<name>Carle</name>
+		<age>14</age>
+		<section>7C</section>
+	</student>
+	<student>
+		<name>Amma</name>
+		<age>11</age>
+		<section>5B</section>
+	</student>
+</school>
